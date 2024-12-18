@@ -1,7 +1,7 @@
 name: PublishToAzure
 
 on:
-  push:
+  pull_request:
     branches: ["main"]
 
 env:
@@ -26,7 +26,7 @@ jobs:
       shell: pwsh
       run: |
         pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-        dotnet build --configuration Release
+        dotnet build --configuration Release --property:OutputPath=${{ github.workspace }}/WebhooksFunctionApp/output
         popd
 
     - name: 'Run Azure Functions Action'
