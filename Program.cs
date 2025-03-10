@@ -1,14 +1,14 @@
-using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Octokit.Webhooks;
+using Octokit.Webhooks.AzureFunctions;
 
-var host = new HostBuilder()
-    .ConfigureFunctionsWebApplication()
-    .ConfigureServices(services =>
+new HostBuilder()
+    .ConfigureServices((context, collection) =>
     {
-        services.AddApplicationInsightsTelemetryWorkerService();
-        services.ConfigureFunctionsApplicationInsights();
+        collection.AddSingleton<WebhookEventProcessor, EventProcessor>();
     })
-    .Build();
-
-host.Run();
+    .ConfigureGitHubWebhooks()
+    .ConfigureFunctionsWorkerDefaults()
+    .Build()
+    .Run();
