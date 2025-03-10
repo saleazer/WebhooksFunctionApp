@@ -3,6 +3,8 @@ using Microsoft.Extensions.Hosting;
 using Octokit.Webhooks;
 using Octokit.Webhooks.AzureFunctions;
 
+using WebhooksFunctionApp.Processors;
+
 new HostBuilder()
     .ConfigureServices((context, collection) =>
     {
