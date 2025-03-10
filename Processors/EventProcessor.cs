@@ -21,13 +21,21 @@ namespace WebhooksFunctionApp.Processors
         {
             _logger.LogInformation("Processing pull request webhook.");
 
-            string headersString = JsonSerializer.Serialize(headers);
-            string messageBody = JsonSerializer.Serialize(pullRequestEvent);
+            try
+            {
+                string headersString = JsonSerializer.Serialize(headers);
+                string messageBody = JsonSerializer.Serialize(pullRequestEvent);
 
-            _logger.LogInformation($"Headers: {headersString}");
-            _logger.LogInformation($"Request Body: {messageBody}");
+                _logger.LogInformation($"Headers: {headersString}");
+                _logger.LogInformation($"Request Body: {messageBody}");
 
-            await Task.CompletedTask;
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while processing the pull request webhook.");
+                throw;
+            }
         }
     }
 }
