@@ -1,6 +1,6 @@
-﻿using System.Text.Json;
+﻿using Microsoft.Extensions.Logging;
 
-using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 using Octokit.Webhooks;
 using Octokit.Webhooks.Events;
@@ -23,13 +23,10 @@ namespace WebhooksFunctionApp.Processors
 
             try
             {
-                string headersString = JsonSerializer.Serialize(headers);
-                string messageBody = JsonSerializer.Serialize(pullRequestEvent);
-
+                string headersString = JsonConvert.SerializeObject(headers);
+                string pullRequestEventString = JsonConvert.SerializeObject(pullRequestEvent);
                 _logger.LogInformation($"Headers: {headersString}");
-                _logger.LogInformation($"Request Body: {messageBody}");
-
-                await Task.CompletedTask;
+                _logger.LogInformation($"PR Event: {pullRequestEventString}");
             }
             catch (Exception ex)
             {
