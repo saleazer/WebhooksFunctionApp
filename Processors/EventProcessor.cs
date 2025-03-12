@@ -33,6 +33,8 @@ namespace WebhooksFunctionApp.Processors
                 _logger.LogError(ex, "An error occurred while processing the pull request webhook.");
                 throw;
             }
+
+            await Task.CompletedTask;
         }
     }
 }
